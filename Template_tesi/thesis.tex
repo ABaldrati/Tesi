@@ -1,0 +1,117 @@
+\documentclass[a4paper,oneside]{Tptesi2}
+
+\usepackage[italian]{babel}
+\usepackage{listings}
+\usepackage{amsmath,amssymb}
+\usepackage{verbatim}
+\usepackage{indentfirst}
+\usepackage[utf8]{inputenc}
+\usepackage{subfigure}
+\usepackage{algorithmic}
+\usepackage{framed}
+\usepackage{rotating}
+\usepackage{cite}
+
+% Packages -----------------------------------------------------------------------
+%\usepackage{amsthm}
+%\usepackage{amsmath}          % Non necessario se usi TPTESI2 perche' gia` incluso
+%\usepackage[dvips]{graphicx}  % Non necessario se usi TPTESI2 perche' gia` incluso
+%\usepackage{url} %non usare se si usa hyperref
+
+
+\newcommand{\mr}{\emph{motore di ricerca}}
+\newcommand{\Mr}{\emph{Motore di ricerca}}
+\newcommand{\ws}{Web~service }
+
+
+% Use a small font for the verbatim environment
+\makeatletter  % makes '@' an ordinary character
+\renewcommand{\verbatim@font}{%
+  \ttfamily\footnotesize\catcode`\<=\active\catcode`\>=\active%
+}
+\makeatother   % makes '@' a special symbol again
+%
+% Simboli Matematici -------------------------------------------------------------
+%\newcommand{\h}{\mathcal{H}_\infty} % scorciatoia per sequenza usata spesso
+% Definizioni & Teoremi ----------------------------------------------------------
+\newtheorem{teorema}{Teorema}[chapter]
+\newtheorem{corollario}[teorema]{Corollario}
+\newtheorem{lemma}[teorema]{Lemma}
+%\theoremstyle{definition}
+\newtheorem{definizione}{Definizione}[chapter]
+\newtheorem{proposizione}[definizione]{Proposizione}
+% Formattazione Figure -----------------------------------------------------------
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{3}
+\def\topfraction{1}
+\def\textfraction{0}
+% Fuzz ---------------------------------------------------------------------------
+%\hfuzz10cm %Non scassare linee che escono dal bordo
+% Frontespizio -------------------------------------------------------------------
+       \title{insert title\ldots}
+       \author{insert candidate\ldots}
+       \titolocorso{Ingegneria Informatica}
+       \chair{Prof. ... \\ }
+       \numberofmembers{1} %numero dei relatori
+       \degreeyear{insert degree year\ldots}
+       \numerocorrelatori{2} %numero dei correlatori
+       \correlatori{insert correlators\ldots} % i correlatori separati da \\
+
+%
+% ---- Inclusioni (vedi piu` sotto per il comando "include" --------------
+%\includeonly {introduzione,chapter1, chapter2}
+%\includeonly {chapter1, chapter2, chapter3, chapter4, chapter5, chapter6}
+%\includeonly{chapter6}
+%
+\hypersetup{%
+%  pdfpagemode=FullScreen,%
+  plainpages=false,%
+  breaklinks,%
+  pdftitle={},%
+  pdfauthor={},%
+  pdfsubject={},%
+  pdfkeywords={},%
+  colorlinks=false}
+
+\begin{document}
+
+\frontmatter
+
+%\hyphenation{}
+%
+\pagestyle{headings} % rende attive le impostazioni sulla testata!
+%
+\maketitle % crea il frontespizio (ricordati di copiare "stemma.eps" nella tua directory)
+%
+%
+%\pagenumbering{roman}
+\tableofcontents % inserisce indice generale
+\cleardoublepage
+%\addcontentsline{toc}{chapter}{Elenco delle figure}
+%\listoffigures   % inserisce indice figure
+%\addcontentsline{toc}{chapter}{Elenco delle tabelle}
+%\listoftables    % inserisce indice tabelle
+%\addcontentsline{toc}{chapter}{Elenco degli algoritmi}
+%\listofalgorithms
+%
+%--------------- Inizio del testo vero e proprio
+%
+
+%\cleardoublepage
+%\pagenumbering{arabic}
+%\input{files/ringraziamenti}
+\frontmatter
+\include{files/introduction}
+
+\mainmatter
+\include{files/chapter1}
+% \include{files/chapter2}
+\include{files/conclusions}
+
+\addcontentsline{toc}{chapter}{Bibliografia}
+\bibliographystyle{plain}
+\bibliography{files/biblio}
+\bibliographystyle{unsrt}
+%\bibliography{sp,xml}
+
+\end{document} 
