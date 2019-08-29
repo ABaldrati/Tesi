@@ -12,7 +12,8 @@ class Action:
         self.type_of_action = type_of_action
 
 
-def spot_actions(prediction_file, type_of_action, min_duration=10, toll_seconds=3):
+# Funzione che restituisce un array di `Action` del tipo desiderato
+def spot_actions(prediction_file, type_of_action, toll=0.9, min_duration=10, toll_seconds=3):
     if 'card' in type_of_action:
         index = 1
     elif 'subs' in type_of_action:
@@ -27,7 +28,7 @@ def spot_actions(prediction_file, type_of_action, min_duration=10, toll_seconds=
     actions = []
 
     for second in range(len(prediction_file)):
-        if prediction_file[second][index] > 0.9:
+        if prediction_file[second][index] > toll:
             counter_toll = 0
             if in_action is False:
                 start_action = second
@@ -45,6 +46,7 @@ def spot_actions(prediction_file, type_of_action, min_duration=10, toll_seconds=
     return actions
 
 
+# Funzione che genera gli Highlights di una partita
 def generate_single_highlights(game):
     base_video = '/data/datasets/soccernet'
     base_highlight = os.path.join('Data', game, 'Highlights')

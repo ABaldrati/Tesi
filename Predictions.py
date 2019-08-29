@@ -1,4 +1,5 @@
 from keras.models import load_model
+
 from Dataset_Detection import *
 from display_video.graph_overlay import plot_prediction_over_video
 from display_video.plt_func_animation import create_prediction_video
@@ -15,6 +16,7 @@ if 'tensorflow' == K.backend():
     set_session(tf.Session(config=config))
 
 
+# Funzione che genera una predizione al secondo, usando un modello precedentemente addestrato
 def generate_predictions(model, test_games=None):
     if test_games is None:
         _, _, test_games = read_data()
@@ -36,6 +38,7 @@ def generate_predictions(model, test_games=None):
         np.save(destination_path, predictions)
 
 
+# Funzione che genera due video: un video solo delle predizioni, l'altro con le predizioni sopra il video della partita
 def generate_prediction_over_a_video(path_prediction, path_videostats_prediction, path_filename_match,
                                      path_overlay_video, only_stats=True,
                                      scaling_video_factor=4, scaling_stats_factor=0.7):
@@ -45,6 +48,7 @@ def generate_prediction_over_a_video(path_prediction, path_videostats_prediction
                                    scaling_video_factor, scaling_stats_factor)
 
 
+# Funzione che itera la funzione precedente
 def generate_all_prediction_over_a_video(test_games=None, only_stats=True):
     if test_games is None:
         _, _, test_games = read_data()
@@ -74,7 +78,8 @@ model = load_model('./Model/saved-model-34-0.2283-0.7823.h5',
                    custom_objects={'auprc': auprc, 'auprc0': auprc0, 'auprc1': auprc1, 'auprc2': auprc2,
                                    'auprc3': auprc3, 'auprc1to3': auprc1to3, 'f1m': f1m})
 
+# Tests
 _, _, test_games = read_data()
 generate_predictions(model, test_games[0:35])
 generate_all_prediction_over_a_video(test_games[0:35])
-#generate_all_prediction_over_a_video(test_games[0:2], False)
+# generate_all_prediction_over_a_video(test_games[0:2], False)

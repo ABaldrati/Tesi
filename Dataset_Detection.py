@@ -1,6 +1,7 @@
 from Dataset import *
 
 
+# Funzione che genera uno sliding windows di features
 def dataset_detection_generator(list_games, path_data, feature_type, chunk_size=60, PCA=True):
     FEATURE_PER_SECOND = 2
 

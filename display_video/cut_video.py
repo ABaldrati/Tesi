@@ -1,9 +1,10 @@
-#from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
+# from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
 import os
-from moviepy.tools import subprocess_call
 from moviepy.config import get_setting
+from moviepy.tools import subprocess_call
 
 
+# Funzione che estrae una porzione di video
 def ffmpeg_extract_subclip(filename, t1, t2, targetname=None):
     """ Makes a new video file playing video file ``filename`` between
         the times ``t1`` and ``t2``. """
@@ -23,5 +24,3 @@ def ffmpeg_extract_subclip(filename, t1, t2, targetname=None):
 
 def cut_video(input_path, output_path, start_second, end_second):
     ffmpeg_extract_subclip(input_path, start_second, end_second, targetname=output_path)
-
-

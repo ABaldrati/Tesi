@@ -1,8 +1,10 @@
 from contextlib import redirect_stdout
+
 import keras
 import matplotlib.pyplot as plt
 from keras import layers, optimizers
 from keras.models import Sequential
+
 from Dataset import *
 from metrics import *
 
@@ -53,6 +55,7 @@ batch_size_val_and_test = 20
 train_gen, validation_gen, test_gen = generators("/data/datasets/soccernet/SoccerNet-code/src", "ResNET",
                                                  batch_size_train, batch_size_val_and_test, False)
 
+# Modello utilizzato:
 model = Sequential()
 model.add(layers.Bidirectional(layers.GRU(512,
                                           activation='relu',
@@ -102,13 +105,6 @@ history = model.fit_generator(
     # initial_epoch=32,
 )
 
-'''
-scoresv = model.evaluate_generator(validation_gen, steps=(200 // batch_size))
-scorest = model.evaluate_generator(test_gen, steps=(200 // batch_size))
-
-print(scorest)
-print(scoresv)
-'''
 with open('./Model/mymodelsummary.txt', 'w') as f:
     with redirect_stdout(f):
         model.summary()
@@ -134,7 +130,3 @@ plt.xlabel('Epochs')
 plt.ylabel('acc')
 plt.legend()
 plt.savefig('./Model/training-validation-f1m')
-
-# test_loss, auprc, auprc0, auprc1, auprc2, auprc3, auprc1to3 = model.evaluate_generator(test_gen, steps=10)
-# print('test acc:', test_acc)
-

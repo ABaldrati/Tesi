@@ -5,6 +5,7 @@ import os
 import numpy as np
 
 
+# Funzione che ritorna le partite di training,validation e test
 def read_data(path_data='/data/datasets/soccernet/SoccerNet-code/src', shuffle=False):
     old_data_train_path_list = np.load(os.path.join(path_data, 'listgame_Train_300.npy'))
     old_data_valid_path_list = np.load(os.path.join(path_data, 'listgame_Valid_100.npy'))
@@ -25,6 +26,8 @@ def read_data(path_data='/data/datasets/soccernet/SoccerNet-code/src', shuffle=F
     return train_games, valid_games, test_games
 
 
+# Funzione generatrice che dalle features della partita grezze, le suddivide in chunk, vi aggiunge le label e le rende
+# disponibili alla rete neurale
 def dataset_generator(list_games, path_data, feature_type, batch_size, data_aug=True, chunk_size=60, PCA=True):
     FEATURE_PER_SECOND = 2
     feature_per_chunk = FEATURE_PER_SECOND * chunk_size
@@ -140,6 +143,7 @@ def dataset_generator(list_games, path_data, feature_type, batch_size, data_aug=
                         label_dict = {}
 
 
+# Funzione che definisce i tre generatori
 def generators(path_data, feature_type, batch_size_train, batch_size_val_and_test, data_aug=False, chunk_size=60,
                PCA=True):
     train_games, validation_games, test_games = read_data(path_data)

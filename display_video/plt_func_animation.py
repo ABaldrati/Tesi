@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+# Funzione che genera un video con le predizioni precedentemente generate
 def create_prediction_video(path_prediction, path_videostats_prediction):
     fig = plt.figure()
     ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
@@ -26,4 +27,3 @@ def create_prediction_video(path_prediction, path_videostats_prediction):
 
     anim.save(path_videostats_prediction, writer=animation.FFMpegWriter(fps=1))
     plt.close(fig)
-

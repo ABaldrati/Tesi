@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import imutils
 
-
+# Funzione che dato il video della partita e il video di predizioni, ne genera uno con le predizioni "sopra" la partita
 def plot_prediction_over_video(path_filename_match, path_filename_stats, path_output_video, scaling_video_factor=4,
                                scaling_stats_factor=0.7):
     cap_match = cv2.VideoCapture(path_filename_match, 0)
