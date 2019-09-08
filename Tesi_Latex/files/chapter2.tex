@@ -1,0 +1,155 @@
+\chapter{Esperimenti Classificazione}\label{ch:chapter2}
+\section{Dataset}
+\subsection{Descrizione del dataset}
+Il Dataset su cui sono stati effettuati gli esperimenti descritti in questo elaborato di tesi, è formato da \textbf{500 partite}, per un totale di \textbf{764 ore} di gioco, prese dai principali campionati europei durante le tre stagioni 2014-2015, 2015-2016 e 2016-2017.
+\\Le partite del dataset sono state divise randomicamente in \textbf{300}, \textbf{100}, \textbf{100} per \textbf{training}, \textbf{validation} e \textbf{testing}, assicurandosi in questo modo una distribuzione similare degli eventi in ogni porzione di dataset.
+\begin{table}[ht]
+\caption{Suddivisone delle partite per lega e anno nel nostro Dataset}
+\centering
+\begin{tabular}{c| | c|c|c | | c}
+\multicolumn{1}{c}{}&\multicolumn{3}{c}{Stagioni}& \\
+Lega & 14/15 & 15/16 & 16/17 & \textbf{Total} \\
+\hline
+EN - EPL & 6 & 49 & 40 & \textbf{95} \\
+ES - LaLiga & 18 & 36 & 63 & \textbf{117} \\
+FR - Ligue 1 & 1 &  3 & 34 & \textbf{38} \\
+DE - BundesLiga & 8 & 18 & 27 & \textbf{53} \\
+IT - Seria A & 11 & 9 & 76 & \textbf{96} \\
+EU - CHampions & 37 & 45 & 19 & \textbf{101} \\
+\hline
+Total & \textbf{81} & \textbf{160} & \textbf{259} & \textbf{500} \\ [1ex]
+
+\end{tabular}
+\label{table: Dataset}
+\end{table}
+\\Dai video delle partite sono state poi estratte le features mediante la rete neurale ResNET con il procedimento descritto in precedenza.
+\subsection{Label}
+Oltre ai video, il Dataset è formato dalle annotazioni (label), le quali sono state inizialmente ottenute effetuando il \textit{parsing} dei report delle partite ottenuti sui siti delle varie leghe calcistiche.
+\\Tuttavia la precisione delle annotazioni così ottenute non è abbastanza elevata per i nostri propositi essendo di un minuto, a causa di ciò si sono dovuti riannotare manualmente gli eventi, all'interno del minuto già noto, per ottenere una precisione di un secondo.
+\\Per essere in grado di fare ciò, tuttavia, si sono dovuti definire gli esatti istanti temporali che corrispondono alle azioni di nostro interesse.
+\\Definiamo quindi:
+\begin{itemize}
+\item L'evento \textbf{Goal} come l'istante in cui la palla oltrepassa la linea di porta
+\item L'evento \textbf{Cartellino} come l'instante in cui l'arbitro estrae il cartellino giallo
+\item L'evento \textbf{sostituzione} l'istante come in cui il giocatore entra nel terreno di gioco
+\end{itemize}
+L'unica eccezione alle definizioni sovracitate sono le sostituzioni avvenute durante l'intervallo, per le quali è impossibile dare una definzione che corrisponda con quanto accade in video.
+\subsection{Suddivisone minuto per minuto}
+Il nostro dataset formato, come detto sopra, da 500 partite e 764 ore di video, per poter essere elaborato da un rete neurale è stato poi suddiviso in porzioni di \textbf{durata di un minuto}.
+\\In questa fase il nostro è un problema di \textbf{classificazione}, in cui un singolo campione è formato da 120 raggruppamenti di features ed è annotato con gli eventi occorrenti in quel minuto.
+\\Ovviamente essendo molto più probabile che in un minuto di una partita non accada niente piuttosto che ci sia un'azione da noi ricercata, il nostro dataset è decisamente sbilanciato, esso infatti nel training set contiene:
+\begin{itemize}
+\item \textbf{1246} campioni in cui è presete un \textbf{cartellino}
+\item \textbf{1558} campioni in cui è prsente una \textbf{sostituzione}
+\item \textbf{960} campioni in cui è presente un \textbf{goal}
+\item \textbf{23750} campioni di \textbf{background}, ovvero in cui non avviene nessuna delle tre azioni sopracitate
+\end{itemize}
+È importante notare inoltre come ben \textbf{115} campioni abbiano label multiple, per una corretta classificazione è necessario che il modello ammetta la possbilità di classificare questi campioni nel modo corretto.
+\section{Metriche}
+\subsection{Mean Average Precision}
+La metrica usata nel paper di riferimento con cui ci andremo a confrontare è la metrica denominata \textbf{Mean Average Precision} (\textbf{mAP}). Per il calcolo di tale metrica viene utilizzata la \textbf{precision-recall curve}.
+\\Prima di procere oltre è bene introdurre i concetti di \textbf{precision} e \textbf{recall}:
+\begin{itemize}
+\item La metrica \textbf{precison} misura quanto accurate sono le tue predizioni, ovvero la precentuale di previsioni corrette.
+\begin{equation}
+Precision=\frac{True Positives}{True Positives + False Positives}
+\label{Precision}
+\end{equation}
+\item La metrica \textbf{recall} misura quanto correttamente riesci a trovare tutti i positivi, può essere pensata quindi come l'abilità di un modello di trovare i punti di interesse di un dataset.
+\begin{equation}
+Recall=\frac{True Positives}{True Positives + False Negatives}
+\label{Recall}
+\end{equation}
+\end{itemize}
+Definiamo quindi \textbf{Average-Precision} (\textbf{AP}) l'area al di sotto della curva precision-recall.
+\\Infine definiamo \textbf{Mean Average-Precision} come la media tra i valori delle AP per ogni evento. Nel nostro caso quindi abbiamo calcolato tre AP: goal, sostituzioni e cartellini e successivamente ne abbiamo fatto la media aritmetica.
+\\Questa metrica sfortunatamente non mi è stato possibile utilizzarla in fase di training (e quindi validazione), questo a causa del fatto che la mAP non è nativamente supportata in Keras, per poterla utilizzare è stato quindi necessario importare tale metrica da Tensorflow.
+\\Le metriche di Tensorflow non supportano tuttavia i dati costruiti mediante funzioni generatici, fatto invece necessario a causa della pesantezza dei nostri dati.
+\\Per questo motivo per effettuare il fine-tuning del nostro modello è stato necessario utilizzare una metrica diversa.
+\subsection{F1}
+La metrica utilizzata in fase di validazione è stata quindi la \textbf{F1}, tale metrica riprende in concetti di Precision e Recall sopra definiti ed ha la seguente espressione:
+\begin{equation}
+F1=2*\frac{Precision * Recall}{Precision + Recall}
+\label{F1}
+\end{equation}
+Nel nostro caso, dato che a noi interessa principlamente indivduare le porzioni di partita in cui accade un evento saliente, tale metrica è stata calcolata solamente sulle \textbf{tre} label di nostro interesse \textbf{trascurando} quella di background.
+\section{Baseline}
+I \textbf{risultati} ottenuti dalla baseline utilizzando le varie tecniche di pooling precedentemente accennate ed utilizzando le features estratte con ResNET sono elencati di seguito.
+\begin{table}[ht]
+\caption{Risultati per i diversi metodi di pooling con $k=16$}
+\centering
+\begin{tabular}{c| | c}
+pooling & mAP \\
+\hline
+Mean Pool. & 40.2 \\
+Max Pool. &  52.4\\
+CNN & 53.5\\
+SoftDBOW & 48.9\\
+NetFV & 64.4\\
+NetRVLAD & \textbf{65.9}\\
+NetVLAD & 65.2\\ [1ex]
+
+\end{tabular}
+\label{table: baselinek16}
+\end{table}
+\\Inizialmente sono stati effettuati degli esperimenti con i metodi di pooling senza effettuare alcun tipo di fine-tuning, in particlare sui metodi proposti da \textit{Miech et al} (\textbf{SoftDBOW}, \textbf{NetFV}, \textbf{NetVLAD} e \textbf{NetRVLAD}) sono stati usati \textbf{k=16} cluster.
+\\Ovviamente all'aumentare dei cluster aumenta la potenza espressiva del sistema, generando con buona prababilità un aumento di prestazioni.
+\\I risultati sono riassunti nella tabella \ref{table: baselinek16}.
+\begin{table}[ht]
+\label{table: baselinek16to512}
+\caption{mAP al variare del numero di cluster k per i metodi di pooling proposti da \textit{Miech et al}}
+\centering
+\begin{tabular}{c| | c|c|c |  c}
+&\multicolumn{4}{c}{Metodi di Pooling} \\
+k & SoftBOW & NetFV & NetRVLAD & NetVLAD \\
+\hline
+16& 54.9 & 63.0 & 64.4 & 65.2 \\
+32 & 57.7 & 64.0 & 63.8 & 65.1 \\
+64& 58.8 &  64.1 & 65.3 & 65.2 \\
+128& 60.6 & 64.4 & 67.0 & 65.6 \\
+256& 61.3 & 63.8 & 67.7 & 67.0 \\
+512 & 62.0 & 62.1 & 67.4 & \textbf{67.8} \\[1ex]
+
+\end{tabular}
+\end{table}
+\\Nella tabella \ref{table: baselinek16to512} invece si vede come all'aumentare delle dimensioni dei cluster migliorino le prestazioni, tuttavia la complessità computazionale cresce lineramente col numero dei cluster e le prestazionni sembrano stabilizzarsi oltre i 256 cluster a causa dell'overfitting.\\
+\\
+Il miglior risultato della baseline, quello quindi con cui ci siamo andati a confrontare, è ottenuto mediante NetVLAD con \textbf{k=512} cluster.
+\\Come evidenziato nella tabella \ref{table: baselinek16to512} tale modello sul nostro dataset ha una mAP del \textbf{67.8\%}.
+\section{I miei risultati}
+Il modello che è stato utlizzato per cercare di migliorare i risultati ottenuti con la baseline, è stato precedentemente descritto nei dettagli.
+\\Si tratta di una rete neurale ricorrente formata da tre layer GRU bidirezionali con l'aggiunta del layer di ouput.
+\subsection{Training and Validation}
+Come detto in precedenza a causa dell'incompatibilità tra le metriche di Tensorflow e i dati costruiti mediante generatori in Keras non mi è stato possibile  utilizzare la metrica mAP in fase di training del mio modello.
+\\Per questo motivo nel grafico in figura \ref{figure : trainingvalf1} viene rappresentato l'andamento della metrica \textbf{f1} (denominata \textbf{f1m} per sottolinare il fatto che non viene considerata la label di background).
+\\Nella figura \ref{figure : trainingvalloss} possiamo vedere come la loss function inizi a crescere dopo circa 10 epoche, facendoci pensare che il modello da li in poi inizi a peggiorare a causa dell'overfitting.
+\\Tuttavia nella figura \ref{figure : trainingvalf1} possiamo vedere come la metrica f1 continui a migliorare anche dopo 10 epoche, stabilizzandosi circa alla trentsima epoca e avendo il miglior risultato all'epoca numero 34.
+\\Questa discrepanza è dovuta alla polarizzazione, verso 0 o verso 1, delle probabilità di output del nostro modello.
+\begin{figure}
+\centering
+\caption{Training and validation loss}
+\includegraphics[scale=0.7]{img/training-validation-loss.png}
+\label{figure : trainingvalloss}
+\end{figure}
+\begin{figure}[ht]
+\centering
+\caption{Training and validation f1m}
+\includegraphics[scale=0.7]{img/training-validation-f1m.png}
+\label{figure : trainingvalf1}
+\end{figure}
+\subsection{Test}
+Per verificare definitivamente la bontà del nostro modello è stato necessario testarlo sulla porzione di dataset riservata a tali propositi. In questa fase la metrica di riferimento torna a essere la mAP.
+\begin{table}[ht]
+\label{table: test}
+\caption{Risultati sul test set}
+\centering
+\begin{tabular}{c|c|c||c}
+\multicolumn{3}{c}{AP} & \multicolumn{1}{c}{}  \\
+Cartellino & Sostituzione & Goal & mAP \\
+\hline
+77.6& 78.7 & 82.8 & \textbf{79.7} \\ [1ex]
+\end{tabular}
+\end{table}
+\\Nella tabella \ref{table: test} sono illustrati i risultati sul test-set.
+\\Considerando il risultato migliore della baseline contro cui ci siamo confrontati è del \textbf{67.8\%}, il 
+risultato ottenuto, essendo un miglioramento di oltre il \textbf{10\%} possiamo ritenerlo soddisfacente.

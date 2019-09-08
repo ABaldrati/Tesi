@@ -1,0 +1,32 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{model} \PYG{o}{=} \PYG{n}{Sequential}\PYG{p}{()}
+\PYG{n}{model}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{n}{layers}\PYG{o}{.}\PYG{n}{Bidirectional}\PYG{p}{(}\PYG{n}{layers}\PYG{o}{.}\PYG{n}{GRU}\PYG{p}{(}\PYG{l+m+mi}{512}\PYG{p}{,}
+                                          \PYG{n}{activation}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}relu\PYGZsq{}}\PYG{p}{,}
+                                          \PYG{n}{dropout}\PYG{o}{=}\PYG{l+m+mf}{0.1}\PYG{p}{,}
+                                          \PYG{n}{recurrent\PYGZus{}dropout}\PYG{o}{=}\PYG{l+m+mf}{0.4}\PYG{p}{,}
+                                          \PYG{n}{return\PYGZus{}sequences}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,}
+                                          \PYG{p}{),}
+                               \PYG{n}{input\PYGZus{}shape}\PYG{o}{=}\PYG{p}{(}\PYG{n+nb+bp}{None}\PYG{p}{,} \PYG{l+m+mi}{512}\PYG{p}{))}
+          \PYG{p}{)}
+
+\PYG{n}{model}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{n}{layers}\PYG{o}{.}\PYG{n}{Bidirectional}\PYG{p}{(}\PYG{n}{layers}\PYG{o}{.}\PYG{n}{GRU}\PYG{p}{(}\PYG{l+m+mi}{256}\PYG{p}{,}
+                                          \PYG{n}{activation}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}relu\PYGZsq{}}\PYG{p}{,}
+                                          \PYG{n}{dropout}\PYG{o}{=}\PYG{l+m+mf}{0.1}\PYG{p}{,}
+                                          \PYG{n}{recurrent\PYGZus{}dropout}\PYG{o}{=}\PYG{l+m+mf}{0.4}\PYG{p}{,}
+                                          \PYG{n}{return\PYGZus{}sequences}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,}
+                                          \PYG{p}{)}
+                               \PYG{p}{)}
+          \PYG{p}{)}
+
+\PYG{n}{model}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{n}{layers}\PYG{o}{.}\PYG{n}{Bidirectional}\PYG{p}{(}\PYG{n}{layers}\PYG{o}{.}\PYG{n}{GRU}\PYG{p}{(}\PYG{l+m+mi}{128}\PYG{p}{,}
+                                          \PYG{n}{activation}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}relu\PYGZsq{}}\PYG{p}{,}
+                                          \PYG{n}{dropout}\PYG{o}{=}\PYG{l+m+mf}{0.1}\PYG{p}{,}
+                                          \PYG{n}{recurrent\PYGZus{}dropout}\PYG{o}{=}\PYG{l+m+mf}{0.4}\PYG{p}{,}
+                                          \PYG{p}{)}
+                               \PYG{p}{)}
+          \PYG{p}{)}
+
+\PYG{n}{model}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{n}{layers}\PYG{o}{.}\PYG{n}{Dense}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{,}
+                       \PYG{n}{activation}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}sigmoid\PYGZsq{}}\PYG{p}{)}
+          \PYG{p}{)}
+\end{Verbatim}

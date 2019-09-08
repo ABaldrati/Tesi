@@ -87,8 +87,6 @@
 \def\chair#1{\gdef\@chair{#1}}
 % The names of your other committe members, one per line
 \def\othermembers#1{\gdef\@othermembers{#1}}
-% correlatori
-\def\correlatori#1{\gdef\@correlatori{#1}}
 % The number of committee members, which affects both the
 % number of lines and the amount of space between lines
 % on the approval page.
@@ -96,12 +94,6 @@
 \def\@approvalspace{.75in}
 \def\numberofmembers#1{\gdef\@numberofmembers{#1}
 \ifnum \@numberofmembers > 3
-  \gdef\@approvalspace{.5in}
-\fi}
-% numero di correlatori
-\def\@numerocorrelatori{3}
-\def\numerocorrelatori#1{\gdef\@numerocorrelatori{#1}
-\ifnum \@numerocorrelatori > 3
   \gdef\@approvalspace{.5in}
 \fi}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -209,12 +201,6 @@
       {\@othermembers}
     \fi
   \vspace{5mm}\par
-  \ifnum \@numerocorrelatori > 1
-    {\it Correlatori}\newline
-  \else
-    {\it Correlatore}\newline
-  \fi
-    {\@correlatori}
  \end{minipage}%
  \hfil\vfil}%
 

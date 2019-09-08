@@ -1,5 +1,5 @@
-\documentclass[a4paper,oneside]{Tptesi2}
-
+\documentclass[a4paper,oneside,hidelinks]{Tptesi2}
+\usepackage{hyperref}
 \usepackage[italian]{babel}
 \usepackage{listings}
 \usepackage{amsmath,amssymb}
@@ -11,6 +11,8 @@
 \usepackage{framed}
 \usepackage{rotating}
 \usepackage{cite}
+\usepackage{minted}
+\setminted{linenos,breakbytokenanywhere,breaklines,frame=lines}
 
 % Packages -----------------------------------------------------------------------
 %\usepackage{amsthm}
@@ -48,14 +50,13 @@
 % Fuzz ---------------------------------------------------------------------------
 %\hfuzz10cm %Non scassare linee che escono dal bordo
 % Frontespizio -------------------------------------------------------------------
-       \title{insert title\ldots}
-       \author{insert candidate\ldots}
+       \title{Riconoscimento di azioni in video calcistici usando reti neurali ricorrenti}
+       \author{Alberto Baldrati}
        \titolocorso{Ingegneria Informatica}
-       \chair{Prof. ... \\ }
+       \chair{Marco Bertini }
        \numberofmembers{1} %numero dei relatori
-       \degreeyear{insert degree year\ldots}
-       \numerocorrelatori{2} %numero dei correlatori
-       \correlatori{insert correlators\ldots} % i correlatori separati da \\
+       \degreeyear{2018/2019}
+  
 
 %
 % ---- Inclusioni (vedi piu` sotto per il comando "include" --------------
@@ -105,7 +106,7 @@
 
 \mainmatter
 \include{files/chapter1}
-% \include{files/chapter2}
+\include{files/chapter2}
 \include{files/conclusions}
 
 \addcontentsline{toc}{chapter}{Bibliografia}
