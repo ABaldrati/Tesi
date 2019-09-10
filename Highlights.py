@@ -13,7 +13,7 @@ class Action:
 
 
 # Funzione che restituisce un array di `Action` del tipo desiderato
-def spot_actions(prediction_file, type_of_action, toll=0.9, min_duration=10, toll_seconds=3):
+def spot_actions(prediction_file, type_of_action, min_prob=0.9, min_duration=10, toll_seconds=3):
     if 'card' in type_of_action:
         index = 1
     elif 'subs' in type_of_action:
@@ -28,7 +28,7 @@ def spot_actions(prediction_file, type_of_action, toll=0.9, min_duration=10, tol
     actions = []
 
     for second in range(len(prediction_file)):
-        if prediction_file[second][index] > toll:
+        if prediction_file[second][index] > min_prob:
             counter_toll = 0
             if in_action is False:
                 start_action = second
