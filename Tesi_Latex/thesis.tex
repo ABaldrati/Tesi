@@ -12,7 +12,10 @@
 \usepackage{rotating}
 \usepackage{cite}
 \usepackage{minted}
+\usepackage[square,numbers]{natbib}
 \setminted{linenos,breakbytokenanywhere,breaklines,frame=lines}
+
+
 
 % Packages -----------------------------------------------------------------------
 %\usepackage{amsthm}
@@ -107,12 +110,12 @@
 \mainmatter
 \include{files/chapter1}
 \include{files/chapter2}
+\include{files/chapter3}
 \include{files/conclusions}
 
 \addcontentsline{toc}{chapter}{Bibliografia}
-\bibliographystyle{plain}
+\bibliographystyle{abbrvnat}
 \bibliography{files/biblio}
-\bibliographystyle{unsrt}
 %\bibliography{sp,xml}
-
+\bibliographystyle{ieeetr}
 \end{document} 

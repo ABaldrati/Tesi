@@ -2,22 +2,30 @@
 \babel@toc {italian}{}
 \contentsline {chapter}{Introduzione}{i}{chapter*.2}
 \contentsline {chapter}{\numberline {1}Metodo}{1}{chapter.1}
-\contentsline {section}{\numberline {1.1}Features}{1}{section.1.1}
-\contentsline {subsection}{\numberline {1.1.1}Preparazione dei video}{1}{subsection.1.1.1}
-\contentsline {subsection}{\numberline {1.1.2}Estrazione delle features}{2}{subsection.1.1.2}
-\contentsline {section}{\numberline {1.2}Shallow pooling neural network}{2}{section.1.2}
+\contentsline {section}{\numberline {1.1}Features \cite {soccerNet}}{1}{section.1.1}
+\contentsline {subsection}{\numberline {1.1.1}Preparazione dei video }{1}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {1.1.2}Estrazione delle features }{2}{subsection.1.1.2}
+\contentsline {section}{\numberline {1.2}Pooling neural network \cite {soccerNet}}{2}{section.1.2}
 \contentsline {section}{\numberline {1.3}GRU-model}{3}{section.1.3}
 \contentsline {chapter}{\numberline {2}Esperimenti Classificazione}{5}{chapter.2}
-\contentsline {section}{\numberline {2.1}Dataset}{5}{section.2.1}
-\contentsline {subsection}{\numberline {2.1.1}Descrizione del dataset}{5}{subsection.2.1.1}
+\contentsline {section}{\numberline {2.1}Dataset \cite {soccerNet}}{5}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Descrizione del dataset }{5}{subsection.2.1.1}
 \contentsline {subsection}{\numberline {2.1.2}Label}{5}{subsection.2.1.2}
 \contentsline {subsection}{\numberline {2.1.3}Suddivisone minuto per minuto}{7}{subsection.2.1.3}
 \contentsline {section}{\numberline {2.2}Metriche}{8}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}Mean Average Precision}{8}{subsection.2.2.1}
 \contentsline {subsection}{\numberline {2.2.2}F1}{9}{subsection.2.2.2}
-\contentsline {section}{\numberline {2.3}Baseline}{9}{section.2.3}
+\contentsline {section}{\numberline {2.3}Baseline \cite {soccerNet}}{9}{section.2.3}
 \contentsline {section}{\numberline {2.4}I miei risultati}{11}{section.2.4}
 \contentsline {subsection}{\numberline {2.4.1}Training and Validation}{11}{subsection.2.4.1}
 \contentsline {subsection}{\numberline {2.4.2}Test}{13}{subsection.2.4.2}
-\contentsline {chapter}{\numberline {3}Conclusioni}{14}{chapter.3}
-\contentsline {chapter}{Bibliografia}{15}{chapter.3}
+\contentsline {chapter}{\numberline {3}Esperimenti Localizzazione}{14}{chapter.3}
+\contentsline {section}{\numberline {3.1}Sliding windows dataset}{14}{section.3.1}
+\contentsline {section}{\numberline {3.2}Predizioni}{15}{section.3.2}
+\contentsline {section}{\numberline {3.3}Visualizzazione predizioni}{17}{section.3.3}
+\contentsline {section}{\numberline {3.4}Highlighs}{19}{section.3.4}
+\contentsline {chapter}{\numberline {4}Conclusioni}{21}{chapter.4}
+\contentsline {section}{\numberline {4.1}Cosa ha funzionato bene}{21}{section.4.1}
+\contentsline {section}{\numberline {4.2}Cosa ha funzionato meno bene}{22}{section.4.2}
+\contentsline {section}{\numberline {4.3}Lavoro futuro}{22}{section.4.3}
+\contentsline {chapter}{Bibliografia}{24}{section.4.3}

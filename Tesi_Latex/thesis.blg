@@ -1,24 +1,61 @@
-This is BibTeX, Version 0.99dThe top-level auxiliary file: thesis.aux
-I couldn't open auxiliary file files/introduction.aux
----line 24 of file thesis.aux
- : \@input{files/introduction.aux
- :                               }
-I'm skipping whatever remains of this command
-I couldn't open auxiliary file files/chapter1.aux
----line 25 of file thesis.aux
- : \@input{files/chapter1.aux
- :                           }
-I'm skipping whatever remains of this command
-I couldn't open auxiliary file files/conclusions.aux
----line 26 of file thesis.aux
- : \@input{files/conclusions.aux
- :                              }
-I'm skipping whatever remains of this command
-The style file: plain.bst
-Illegal, another \bibstyle command---line 30 of file thesis.aux
+This is BibTeX, Version 0.99d (TeX Live 2017/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: thesis.aux
+A level-1 auxiliary file: files/introduction.aux
+A level-1 auxiliary file: files/chapter1.aux
+A level-1 auxiliary file: files/chapter2.aux
+A level-1 auxiliary file: files/chapter3.aux
+A level-1 auxiliary file: files/conclusions.aux
+The style file: abbrvnat.bst
+Illegal, another \bibstyle command---line 41 of file thesis.aux
  : \bibstyle
- :          {unsrt}
+ :          {ieeetr}
 I'm skipping whatever remains of this command
-I found no \citation commands---while reading file thesis.aux
 Database file #1: files/biblio.bib
-(There were 5 error messages)
+Warning--entry type for "impattoDirittiTv" isn't style-file defined
+--line 9 of file files/biblio.bib
+Warning--entry type for "DirittiTriennio2018-21" isn't style-file defined
+--line 17 of file files/biblio.bib
+Warning--empty booktitle in soccerNet
+You've used 7 entries,
+            2773 wiz_defined-function locations,
+            634 strings with 6537 characters,
+and the built_in function-call counts, 4441 in all, are:
+= -- 324
+> -- 482
+< -- 4
++ -- 163
+- -- 156
+* -- 396
+:= -- 743
+add.period$ -- 22
+call.type$ -- 7
+change.case$ -- 71
+chr.to.int$ -- 7
+cite$ -- 15
+duplicate$ -- 124
+empty$ -- 232
+format.name$ -- 164
+if$ -- 873
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 4
+newline$ -- 44
+num.names$ -- 28
+pop$ -- 168
+preamble$ -- 1
+purify$ -- 65
+quote$ -- 0
+skip$ -- 138
+stack$ -- 0
+substring$ -- 14
+swap$ -- 7
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 72
+warning$ -- 1
+while$ -- 21
+width$ -- 0
+write$ -- 93
+(There was 1 error message)

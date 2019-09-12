@@ -1,29 +1,28 @@
 \chapter{Metodo}\label{ch:chapter1}
-\section{Features}
-\subsection{Preparazione dei video}
+\section{Features \cite{soccerNet}}
+\subsection{Preparazione dei video }
 Prima di procedere con l'estrazione delle \textbf{features} mediante una rete neurale, sono state effettuate sui video le seguenti operazioni:
 \begin{itemize}
-\item Sono stati tagliati in modo che l'inizio del video coincida con l'inizio della partita dopo essere stati sincronizzati mediante OCR
-\item Dalla risoluzione HD sono stati portati ad una risoluzione di 224 x 224
-\item Sono stati unificati a 25fps
+\item Sono stati \textbf{tagliati} in modo che l'inizio del video coincida con l'inizio della partita
+\item Dalla risoluzione \textbf{HD} sono stati portati ad una risoluzione di \textbf{224 x 224}
+\item Sono stati unificati a \textbf{25fps}
 \end{itemize}
 Tale rappresentazione garantisce video compatibili con l'estrazione di features mediante reti neurali e permette di mantenre un dataset di dimensioni accettabili.
-\subsection{Estrazione delle features}
+\subsection{Estrazione delle features }
 Dopo aver processato i video come descritto sopra si è passati poi alla estrazione delle features.
 \\Per tale operazione è stata usata la rete neurale convoluzionale profonda (ConvNet) \textbf{ResNET}, essa data un immagine (nel nostro caso un frame del video) in input, ha come output \textbf{2048} features. In particolare è stata usata la variante \textbf{ResNet-152} preallenata sul dataset \textbf{ImageNet}.
 \\Dato che tale rete neurale è applicata sui singoli frame, essa non mantiene intrinsecamente informazioni temporali, a causa di ciò essa è stata utilizzata per estrarre features ogni 0.5 secondi, preocupandosi successivamente di mantenerle nell'ordine corretto.
 \\Per ridurre le dimensioni della features è stata infine applicata la \textbf{Principal Component Analaysis} (\textbf{PCA}) che riduce il numero di features per frame da \textbf{2048} a \textbf{512} mantenendo il \textbf{93.9\%} della loro varianza.
 
-\section{Shallow pooling neural network}
-Nel paper di riferimento vengono testate varie tipologie di pooling, le quali hanno in comune la sigmoide come funzione di attivazione nell'ultimo layer per permettere label multiple in un singolo campione.
-Le varie tipologie di pooling sono: \textbf{mean}, \textbf{max}, \textbf{CNN}, \textbf{SoftDBOW}, \textbf{NetFV}, \textbf{NetVLAD} e \textbf{NetRVLAD}.
-\\Il modello che ottiene i risultati migliori è il \textbf{NetVLAD} con 512 cluster, avente nel \textit{fully connected layer} di uscita un  \textit{dropout rate} pari a 0.4 che cerca di prevenire l'overfitting.
-%\\Questo è quindi il modello di riferimento, ovvero il modello con cui andermo a confrontare tutti i risultati.
+\section{Pooling neural network \cite{soccerNet}}
+Nel paper di \citet{soccerNet} vengono testate varie tipologie di pooling, le quali hanno in comune la sigmoide come funzione di attivazione nell'ultimo layer per permettere label multiple in un singolo campione.
+Le varie tipologie di pooling utilizzate sono: \textbf{mean}, \textbf{max}, \textbf{CNN}, \textbf{SoftDBOW}, \textbf{NetFV}, \textbf{NetVLAD} e \textbf{NetRVLAD}. \cite{MiechPooling}
+\\Il modello che ottiene i risultati migliori è il \textbf{NetVLAD} con 512 cluster, avente il \textit{fully connected layer} di uscita con un  \textit{dropout rate} pari a 0.4 che cerca di prevenire l'\textit{overfitting}.
 
 \section{GRU-model}
 \label{section : grumodel}
-Il modello migliore da me sviluppato è una \textbf{rete neurale ricorrente} (\textbf{RNNs}) basata su \textbf{GRU} layer (\textbf{Gated Recurrent Unit}). Questi layer sono stati inoltre usati in modo \textbf{bidirezionale} in quanto spesso, ciò che avviene dopo un goal, un cartellino o una sostituzione caratterizza l'azione tanto quanto ciò è avvenuto prima, aiutando la rete neurale a classificare in modo corretto l'azione.
-\\Tale modello è stato realizzato con la libreria \textbf{keras}, usando come backend \textbf{tensoflow}:
+Il modello migliore da me sviluppato è una \textbf{rete neurale ricorrente} (\textbf{RNNs}) basata su \textbf{GRU} layer (\textbf{Gated Recurrent Unit}). Questi layer sono stati usati in modo \textbf{bidirezionale} in quanto spesso, ciò che avviene dopo un goal, un cartellino o una sostituzione caratterizza l'azione tanto quanto ciò è avvenuto prima, aiutando la rete neurale a classificare in modo corretto l'azione. \cite{DeepLearningPython}
+\\Tale modello è stato realizzato con la libreria \textbf{keras} \cite{chollet2015keras}, usando come backend \textbf{tensoflow} \cite{tensorflow2015-whitepaper}
 \begin{minted}[baselinestretch=1, fontsize=\footnotesize]{python}
 model = Sequential()
 model.add(layers.Bidirectional(layers.GRU(512,
@@ -56,6 +55,6 @@ model.add(layers.Dense(4,
                        activation='sigmoid')
           )
 \end{minted}
-Come si può notare dal modello sono stati utilizzati dei \textit{dropout layer} per cercare di ridurre il problema dell'overfitting, essi sono stati usati sia nella versione standard, sia nella versione apposita per le reti neruali ricorrenti, la quale utilizza la medesima \textit{dropout mask} ad ogni timestamp permettendo di propagare l'errore in modo corretto.
+Come si può notare dal modello descritto sopra sono stati utilizzati dei \textit{dropout layer} per cercare di ridurre il problema dell'overfitting, essi sono stati usati sia nella versione standard, sia nella versione apposita per le reti neruali ricorrenti, la quale utilizza la medesima \textit{dropout mask} ad ogni \textit{timestamp} permettendo di propagare l'errore in modo corretto. \cite{DeepLearningPython}
 \\Come otimizzatore è stato utilizzato \textbf{RMSProp} con il \textbf{learning rate} di default (\textbf{lr=0.001}), era tuttavia presente una \textit{callback} che in caso di non miglioramento del modello per più di dieci epoche lo riduceva di un fattore 0.4.
 \\La \textit{loss function} utilizzata, essendo un problema di classificazione binaria multiclasse è la \textit{binary crossentropy}.
