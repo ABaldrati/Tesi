@@ -113,5 +113,5 @@ def main():
     generate_all_highlights(test_games[0:10])
 
 
-if __name__ == 'main':
+if __name__ == '__main__':
     main()

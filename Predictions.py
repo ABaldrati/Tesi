@@ -88,5 +88,5 @@ def main():
     # generate_all_prediction_over_a_video(test_games[0:2], False)
 
 
-if __name__ == 'main':
+if __name__ == '__main__':
     main()
