@@ -1,7 +1,8 @@
 import os
-from Dataset import read_data
+
 import numpy as np
 
+from Dataset import read_data
 from display_video.cut_video import cut_video
 
 
@@ -107,5 +108,10 @@ def generate_all_highlights(test_games=None):
         generate_single_highlights(game)
 
 
-_, _, test_games = read_data()
-generate_all_highlights(test_games[0:10])
+def main():
+    _, _, test_games = read_data()
+    generate_all_highlights(test_games[0:10])
+
+
+if __name__ == 'main':
+    main()

@@ -1,8 +1,9 @@
 from Dataset import *
+import gc
 
 
 # Funzione che genera uno sliding windows di features
-def dataset_detection_generator(list_games, path_data, feature_type, chunk_size=60, PCA=True):
+def dataset_detection_generator_complete(list_games, path_data, feature_type, chunk_size=60, PCA=True):
     FEATURE_PER_SECOND = 2
 
     for game in list_games:
@@ -11,8 +12,6 @@ def dataset_detection_generator(list_games, path_data, feature_type, chunk_size=
             if feature_type in feature_game_name and (
                     (PCA and "PCA" in feature_game_name) or (not PCA and "PCA" not in feature_game_name)):
                 feature_game_path = os.path.join(game_path, feature_game_name)
-
-                # n_sample += 1
 
                 current_features_rough = np.load(feature_game_path)
 

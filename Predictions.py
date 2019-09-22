@@ -20,9 +20,9 @@ if 'tensorflow' == K.backend():
 def generate_predictions(model, test_games=None):
     if test_games is None:
         _, _, test_games = read_data()
-    for match, label, game, feature_game_name in dataset_detection_generator(test_games,
-                                                                             "/data/datasets/soccernet/SoccerNet-code/data",
-                                                                             "ResNET"):
+    for match, label, game, feature_game_name in dataset_detection_generator_complete(test_games,
+                                                                                      "/data/datasets/soccernet/SoccerNet-code/data",
+                                                                                      "ResNET"):
         if "1_" in feature_game_name:
             prediction_name = 'My_prediction_half1'
         else:
@@ -78,8 +78,15 @@ model = load_model('./Model/saved-model-34-0.2283-0.7823.h5',
                    custom_objects={'auprc': auprc, 'auprc0': auprc0, 'auprc1': auprc1, 'auprc2': auprc2,
                                    'auprc3': auprc3, 'auprc1to3': auprc1to3, 'f1m': f1m})
 
+
 # Tests
-_, _, test_games = read_data()
-generate_predictions(model, test_games[0:35])
-generate_all_prediction_over_a_video(test_games[0:35])
-# generate_all_prediction_over_a_video(test_games[0:2], False)
+
+def main():
+    _, _, test_games = read_data()
+    generate_predictions(model, test_games[0:35])
+    generate_all_prediction_over_a_video(test_games[0:35])
+    # generate_all_prediction_over_a_video(test_games[0:2], False)
+
+
+if __name__ == 'main':
+    main()
