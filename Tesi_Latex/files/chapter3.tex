@@ -1,5 +1,5 @@
 \chapter{Esperimenti Localizzazione}\label{ch:chapter3}
-In questo capitolo si andrà a descrivere il lavoro effettuato per estrarre le azioni di nostro interesse dall'intero video delle partite presente nel nostro test set.
+In questo capitolo si andrà a descrivere il lavoro effettuato per estrarre le azioni di nostro interesse dall'intero video delle partite presenti nel nostro test set.
 \\Per fare ciò abbiamo utilizzato la rete neurale addestrata nel problema di classificazione descritto precedentemente.
 \\Quello che abbiamo fatto  può sembrare stano, infatti abbiamo trasformato un problema di \textbf{classificazione} in uno di \textbf{localizzazione}, tuttavia vedremo che nel nostro caso, con qualche accorgimento, ciò è realizzabile.
 \section{Sliding windows dataset}
@@ -9,7 +9,8 @@ Il dataset su cui andremo a effettuare la localizzazione è ovviamente il \textb
 \\Per queste motivazioni, partendo dalle features estratte dall'intero video, è stato creato un campione per ogni secondo di partita, sempre formato da 120 raggruppamenti di features, mediante un meccasismo di \textbf{sliding windows}.
 \\Più nel dettaglio il campione corrsipondente all'istante di partita \textbf{t} viene creato in modo da contenere tutte le features dei frame dall'istante \textbf{t$-$30} all'istante \textbf{t$+$30}.
 \\Ad esempio il campione corrispondente al minuto di partita 23:57 è formato dalle features dei frame comprese tra il minuto 23:27 e il minuto  24:27.
-\\Ovviamente per i campioni all'\textbf{inizio} e alla \textbf{fine} della partita, ovvero i campioni corrispondenti ai primi 30 secondi di video e quelli corrispondenti agli ultimi 30, si sono dovuti prendere degli accorgimenti dato che la loro finestra di features \textit{usciva dal video}. Per questo motivo per la gestione delle features mancanti è stato utilizzato l'appoccio \textbf{zero-padding}, il quale al posto delle features mancanti prevede l'inserimento di features \textbf{fittizie}, tutte poste a \textbf{zero}, consentendo alla rete neurale distinguere in modo autonomo le features significative da quelle invece non significative.
+\\Ovviamente per i campioni all'\textbf{inizio} e alla \textbf{fine} della partita, ovvero i campioni corrispondenti ai \textbf{primi 30 secondi} di video e quelli corrispondenti agli \textbf{ultimi 30}, si sono dovuti prendere degli accorgimenti dato che la loro finestra di features \textit{usciva dal video}.
+\\Per questo motivo per la gestione delle features mancanti è stato utilizzato l'appoccio \textbf{zero-padding}, il quale al posto delle features mancanti prevede l'inserimento di features \textbf{fittizie}, tutte poste a \textbf{zero}, consentendo alla rete neurale distinguere in modo autonomo le features significative da quelle invece non significative.
 \\Questa costruzione del dataset permette di utilizzare la rete neurale precedentemente addestrata per i nostri scopi di \textbf{localizzazione}.
 \section{Predizioni}
 Una volta processato il test set come sopra descritto, mediante quindi un meccanismo di sliding windows, è stato utlizzato il metodo \textbf{predict} fornitoci dalla libreria Keras \cite{chollet2015keras}, il quale dato un modello già alleneato e dei dati compatibili con tale modello, ci fornisce in output le sue predizioni su tali dati sotto forma di probabilità. 
@@ -68,11 +69,11 @@ A causa della natura del dataset, in particolare a causa dell'\textbf{annotazion
 \\Più in dettaglio:
 \begin{enumerate}
 \item Si individuano i \textbf{limiti temporali} dell'azione con le tecniche descritte nel paragrafo precedente
-\item Si \textbf{indvidua} l'istante nel quale pensiamo possa essere accaduta l'azione, ovviamente all'interno dei limiti temporali dell'azione. Nel nostro caso è stato scelto il \textbf{punto centrale} del nostro highlights
+\item Si \textbf{indvidua} l'istante nel quale pensiamo possa essere accaduta l'azione, ovviamente all'interno dei limiti temporali calcolati nel punto 1. Nel nostro caso è stato scelto il \textbf{punto centrale} del nostro highlights
 \item Si determina se l'instante temporale da noi scelto si trova ad una distanza minore della tolleranza dall'istante target. Nel nostro caso è stata scelta una \textbf{tolleranza temporale} di \textbf{30 secondi}.
 \end{enumerate}
 Quindi coi parametri da noi scelti un highlights è ritenuto \textbf{corretto} se il suo istante centrale è distante \textbf{meno} di \textbf{30 secondi} dell'istante target, ovvero dall'istante in cui è realmente accaduta l'azione.
-\\Nella tabella \ref{table: spotting-result} sono riassunti i risultati sperimentali
+\\Nella tabella \textbf{\ref{table: spotting-result}} sono riassunti i risultati sperimentali
 \begin{table}[ht]
 \caption{Risultati sperimentali nel task di spotting}
 \centering
