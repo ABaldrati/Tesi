@@ -4,7 +4,7 @@
 Il Dataset su cui sono stati effettuati gli esperimenti descritti in questo elaborato di tesi è il medesimo usato da \citet{soccerNet}.
 Tale Dataset è formato da \textbf{500 partite}, per un totale di \textbf{764 ore} di gioco, prese dai principali campionati europei durante le tre stagioni 2014-2015, 2015-2016 e 2016-2017.
 \\Maggiori dettagli sui campionati e sulla suddivisone delle partite sono foriniti nella tabella \textbf{\ref{table: Dataset}}
-\\Per assicurare un corretto confronto con la baseline, ho utilizzato la medesima suddivione utilizzata nel loro paper \cite{soccerNet} nella quale: le partite del dataset sono state divise randomicamente in \textbf{300}, \textbf{100}, \textbf{100} per \textbf{training}, \textbf{validation} e \textbf{testing}, assicurandosi in questo modo una distribuzione similare degli eventi in ogni porzione di dataset.
+\\Per assicurare un corretto confronto con la baseline, ho utilizzato la medesima suddivione utilizzata nel loro \textit{paper} \cite{soccerNet} nella quale le partite del dataset sono state suddivise in modo casuale in raggruppamenti di \textbf{300}, \textbf{100}, \textbf{100} rispettivamente per \textbf{training}, \textbf{validation} e \textbf{testing}, assicurandosi in questo modo una distribuzione similare degli eventi in ogni porzione di dataset.
 \begin{table}[H]
 \caption{Suddivisone delle partite per lega e anno nel nostro Dataset}
 \centering
@@ -27,7 +27,7 @@ Total & \textbf{81} & \textbf{160} & \textbf{259} & \textbf{500} \\ [1ex]
 Dai video delle partite sono state poi estratte le features mediante la rete neurale ResNET con il procedimento descritto in precedenza.
 \subsection{Label}
 Oltre ai video, il Dataset è formato dalle \textbf{annotazioni} (\textbf{label}), le quali sono state inizialmente ottenute effetuando il \textit{parsing} dei report delle partite direttamente sui siti delle varie leghe calcistiche.
-\\Tuttavia la precisione delle annotazioni così ottenute non è abbastanza elevata per i nostri propositi essendo di un \textbf{minuto}, a causa di ciò si sono dovuti riannotare \textbf{manualmente} gli eventi, all'interno del minuto già noto, per ottenere una precisione di un \textbf{secondo}.
+\\Tuttavia la granularità delle annotazioni così ottenute non è abbastanza elevata per i nostri propositi essendo di un \textbf{minuto}, a causa di ciò si sono dovuti riannotare \textbf{manualmente} gli eventi, all'interno del minuto già noto, per ottenere una precisione di un \textbf{secondo}.
 \\Per essere in grado di fare ciò, si sono dovuti definire gli esatti istanti temporali che corrispondono alle azioni di nostro interesse.
 \\Definiamo quindi:
 \begin{itemize}
@@ -37,7 +37,7 @@ Oltre ai video, il Dataset è formato dalle \textbf{annotazioni} (\textbf{label}
 \end{itemize}
 L'unica eccezione alle definizioni sovracitate sono le sostituzioni avvenute durante l'\textbf{intervallo}, per le quali è impossibile dare una definzione che corrisponda con quanto accade in video.
 \subsection{Suddivisone minuto per minuto}
-Il nostro dataset formato, come detto sopra, da 500 partite e 764 ore di video, per poter essere elaborato da un rete neurale è stato poi suddiviso in porzioni disgiunte aventi la \textbf{durata di un minuto}.
+Il nostro dataset formato, come detto sopra, da 500 partite e 764 ore di video, è stato poi suddiviso in porzioni disgiunte aventi la \textbf{durata di un minuto} per poter essere elaborato da un rete neurale.
 \\In questa fase il nostro è un problema di \textbf{classificazione}, in cui un singolo campione è formato da \textbf{120 raggruppamenti} di features ed è annotato con gli eventi occorrenti in quel minuto.
 \\Ovviamente essendo molto più probabile che in un minuto di una partita non accada niente piuttosto che sia presente un'azione da noi ricercata, il nostro dataset è decisamente \textbf{sbilanciato}, esso infatti nel training set contiene:
 \begin{itemize}
@@ -98,7 +98,7 @@ I \textbf{risultati} ottenuti dalla baseline mediante le varie tecniche di pooli
 \end{tabular}
 \label{table: baselinek16}
 \end{table}
-\\Ovviamente all'aumentare dei cluster aumenta la potenza espressiva del sistema, generando con buona prababilità un aumento di prestazioni.
+\\Ovviamente all'aumentare dei cluster aumenta la potenza espressiva del sistema, generando con buona probabilità un aumento di prestazioni.
 \begin{table}[ht]
 
 \caption{mAP al variare del numero di cluster k per i metodi di pooling proposti da \citet{MiechPooling}}
@@ -127,7 +127,7 @@ Il modello che è stato utlizzato per cercare di migliorare i risultati ottenuti
 \\Si tratta di una rete neurale ricorrente formata da tre layer GRU bidirezionali con l'aggiunta del layer di ouput.
 \subsection{Training and Validation}
 Come detto in precedenza a causa dell'incompatibilità tra le metriche di Tensorflow e i dati costruiti mediante generatori in Keras non mi è stato possibile  utilizzare la metrica mAP in fase di training del mio modello.
-\\Per questo motivo nel grafico in figura \textbf{\ref{figure : trainingvalf1}} viene rappresentato l'andamento della metrica \textbf{f1} (denominata \textbf{f1m} per sottolinare il fatto che non viene considerata la label di background).
+\\Per questo motivo nel grafico in figura \textbf{\ref{figure : trainingvalf1}} viene rappresentato l'andamento della metrica \textbf{F1}.
 \\Nella figura \textbf{\ref{figure : trainingvalloss}} possiamo vedere come la loss function inizi a crescere dopo circa \textbf{10} epoche, facendoci pensare che il modello da li in poi inizi a peggiorare a causa dell'overfitting.
 \\Tuttavia nella figura \textbf{\ref{figure : trainingvalf1}} possiamo vedere come la metrica f1 continui a migliorare anche dopo 10 epoche, stabilizzandosi circa alla trentsima epoca e avendo il miglior risultato all'epoca numero \textbf{34}.
 \\Questa discrepanza è dovuta alla \textbf{polarizzazione}, verso 0 o verso 1, delle probabilità di output del mio modello.
@@ -139,8 +139,8 @@ Come detto in precedenza a causa dell'incompatibilità tra le metriche di Tensor
 \end{figure}
 \begin{figure}[H]
 \centering
-\caption{Training and validation f1m}
-\includegraphics[width=\linewidth]{img/training-validation-f1m.png}
+\caption{Training and validation F1}
+\includegraphics[width=\linewidth]{img/training-validation-F1.png}
 \label{figure : trainingvalf1}
 \end{figure}
 \subsection{Test}

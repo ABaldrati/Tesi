@@ -7,7 +7,7 @@ A level-1 auxiliary file: files/chapter2.aux
 A level-1 auxiliary file: files/chapter3.aux
 A level-1 auxiliary file: files/conclusions.aux
 The style file: abbrvnat.bst
-Illegal, another \bibstyle command---line 37 of file thesis.aux
+Illegal, another \bibstyle command---line 42 of file thesis.aux
  : \bibstyle
  :          {ieeetr}
 I'm skipping whatever remains of this command
@@ -16,45 +16,44 @@ Warning--entry type for "impattoDirittiTv" isn't style-file defined
 --line 9 of file files/biblio.bib
 Warning--entry type for "DirittiTriennio2018-21" isn't style-file defined
 --line 17 of file files/biblio.bib
-Warning--empty booktitle in soccerNet
 You've used 7 entries,
             2773 wiz_defined-function locations,
-            634 strings with 6537 characters,
-and the built_in function-call counts, 4441 in all, are:
-= -- 324
+            634 strings with 6578 characters,
+and the built_in function-call counts, 4445 in all, are:
+= -- 323
 > -- 482
 < -- 4
 + -- 163
 - -- 156
-* -- 396
+* -- 398
 := -- 743
 add.period$ -- 22
 call.type$ -- 7
 change.case$ -- 71
 chr.to.int$ -- 7
-cite$ -- 15
-duplicate$ -- 124
-empty$ -- 232
+cite$ -- 14
+duplicate$ -- 125
+empty$ -- 234
 format.name$ -- 164
-if$ -- 873
+if$ -- 874
 int.to.chr$ -- 1
 int.to.str$ -- 1
 missing$ -- 4
 newline$ -- 44
 num.names$ -- 28
-pop$ -- 168
+pop$ -- 167
 preamble$ -- 1
 purify$ -- 65
 quote$ -- 0
 skip$ -- 138
 stack$ -- 0
 substring$ -- 14
-swap$ -- 7
+swap$ -- 9
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 72
-warning$ -- 1
+warning$ -- 0
 while$ -- 21
 width$ -- 0
 write$ -- 93

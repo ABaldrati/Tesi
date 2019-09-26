@@ -1,6 +1,7 @@
 \babel@toc {italian}{}
 \babel@toc {italian}{}
-\contentsline {chapter}{Introduzione}{i}{chapter*.2}
+\contentsline {chapter}{Ringraziamenti}{iii}{chapter*.2}
+\contentsline {chapter}{Introduzione}{i}{chapter*.3}
 \contentsline {chapter}{\numberline {1}Metodo}{1}{chapter.1}
 \contentsline {section}{\numberline {1.1}Features}{1}{section.1.1}
 \contentsline {subsection}{\numberline {1.1.1}Preparazione dei video }{1}{subsection.1.1.1}
@@ -22,11 +23,13 @@
 \contentsline {chapter}{\numberline {3}Esperimenti Localizzazione}{15}{chapter.3}
 \contentsline {section}{\numberline {3.1}Sliding windows dataset}{15}{section.3.1}
 \contentsline {section}{\numberline {3.2}Predizioni}{17}{section.3.2}
-\contentsline {section}{\numberline {3.3}Visualizzazione predizioni}{17}{section.3.3}
-\contentsline {section}{\numberline {3.4}Highlighs}{20}{section.3.4}
+\contentsline {section}{\numberline {3.3}Visualizzazione predizioni}{18}{section.3.3}
+\contentsline {section}{\numberline {3.4}Highlights}{20}{section.3.4}
 \contentsline {section}{\numberline {3.5}Risultati sperimentali}{21}{section.3.5}
 \contentsline {chapter}{\numberline {4}Conclusioni}{23}{chapter.4}
 \contentsline {section}{\numberline {4.1}Cosa ha funzionato bene}{23}{section.4.1}
 \contentsline {section}{\numberline {4.2}Cosa ha funzionato meno bene}{24}{section.4.2}
-\contentsline {section}{\numberline {4.3}Lavoro futuro}{24}{section.4.3}
-\contentsline {chapter}{Bibliografia}{26}{section.4.3}
+\contentsline {subsection}{\numberline {4.2.1}Data Aumentation}{24}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Malfunzionamenti}{24}{subsection.4.2.2}
+\contentsline {section}{\numberline {4.3}Sviluppi futuri}{25}{section.4.3}
+\contentsline {chapter}{Bibliografia}{27}{section.4.3}

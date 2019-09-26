@@ -7,7 +7,7 @@ Il dataset su cui andremo a effettuare la localizzazione è ovviamente il \textb
 \\Tuttavia, se nel caso precedente avevamo diviso ogni partita del dataset in porzioni \textbf{disgiunte} di un minuto, nel caso della localizzazione ciò non è ovviamente utile ai nostri scopi.
 \\Un altro fattore da considerare, se come detto si vuole utilizzare la rete neurale precentemente addestrata, è  il tipo di dati forniti in fase di training a tale rete: \textbf{120} raggruppamenti di features (ovvero un \textbf{minuto} di video) per ogni campione.
 \\Per queste motivazioni, partendo dalle features estratte dall'intero video, è stato creato un campione per ogni secondo di partita, sempre formato da 120 raggruppamenti di features, mediante un meccasismo di \textbf{sliding windows}.
-\\Più nel dettaglio il campione corrsipondente all'istante di partita \textbf{t} viene creato in modo da contenere tutte le features dei frame dall'istante \textbf{t$-$30} all'istante \textbf{t$+$30}.
+\\Più nel dettaglio il campione corrispondente all'istante di partita \textbf{t} viene creato in modo da contenere tutte le features dei frame dall'istante \textbf{t$-$30} all'istante \textbf{t$+$30}.
 \\Ad esempio il campione corrispondente al minuto di partita 23:57 è formato dalle features dei frame comprese tra il minuto 23:27 e il minuto  24:27.
 \\Ovviamente per i campioni all'\textbf{inizio} e alla \textbf{fine} della partita, ovvero i campioni corrispondenti ai \textbf{primi 30 secondi} di video e quelli corrispondenti agli \textbf{ultimi 30}, si sono dovuti prendere degli accorgimenti dato che la loro finestra di features \textit{usciva dal video}.
 \\Per questo motivo per la gestione delle features mancanti è stato utilizzato l'appoccio \textbf{zero-padding}, il quale al posto delle features mancanti prevede l'inserimento di features \textbf{fittizie}, tutte poste a \textbf{zero}, consentendo alla rete neurale distinguere in modo autonomo le features significative da quelle invece non significative.
@@ -17,14 +17,14 @@ Una volta processato il test set come sopra descritto, mediante quindi un meccan
 \\Per esempio nel nostro caso, ad ogni \textbf{campione}, quindi ad ogni \textbf{secondo} di partita, sono assegnate \textbf{quattro} probabilità, ovvero una per ogni label (background, sostituzione, cartellino, goal).
 \\Ovviamente per come abbiamo costruito il nostro dataset, le probabilità di un evento ad un certo istante di tempo si riferisce al fatto che sia presente o meno tale evento nell'intervallo tra i 30 secondi \textbf{precedenti} e i 30 secondi \textbf{successivi} al nostro tempo di riferimento.
 \\Questo processo è stato ripetuto poi per tutte le partite del nostro test set.
-\begin{figure}[ht]
+\begin{figure}[H]
 \centering
 \caption{Rappresentazione grafica delle predizioni}
-\includegraphics[width=\linewidth]{img/predict.png}
+\includegraphics[scale=0.22]{img/predict.png}
 \label{figure : predict}
 \end{figure}
 \section{Visualizzazione predizioni}
-Per verificare il corretto funzionamento del mio modello anche nel task di localizzazione, con l'ausilio delle librerie \textbf{matplotlib} e \textbf{OpenCV}, sono stato in grado di mostare direttamente le predizioni (\textbf{in tempo reale}) sopra il video della partita.
+Per verificare il corretto funzionamento del mio modello anche nel task di localizzazione, sono stato in grado di mostare direttamente le predizioni (\textbf{in tempo reale}) sopra il video della partita, per fare ciò mi sono servito delle librerie \textbf{matplotlib} e \textbf{OpenCV}.
 \\Questo ci ha permesso di comprendere molto meglio gli aspetti che la rete neurale ritiene importanti e che fanno la differenza tra un campione con la label di \textit{background} e un campione con una label più \textbf{significativa}.
 
 \begin{figure}[ht]
@@ -45,34 +45,33 @@ Per verificare il corretto funzionamento del mio modello anche nel task di local
 \includegraphics[width=\linewidth]{img/videosubs.png}
 \label{figure : videosub}
 \end{figure}
-\section{Highlighs}
+\section{Highlights}
 Dopo aver generato le predizioni, si ha quindi per ogni istante di una partita la probabilità che i tre nostri eventi di riferimento siano vicini a tale istante.
-\\Prima di procedere con la generazione degli highlights, tuttavia è necessario determinare alcuni parametri:
+\\Prima di procedere con la generazione degli highlights, è tuttavia necessario determinare alcuni parametri:
 \begin{itemize}
-\item La \textbf{probabilità di soglia}, ovvero la probabilità minima che il campione deve avere per ritenerlo appartente ad un azione da noi ricercata. Di default tale valore è impostato a \textbf{0.9} in quanto il modello da noi trovato fornisce predizioni molto polarizzate.
+\item La \textbf{probabilità di soglia}, ovvero la probabilità minima che il campione deve avere per ritenerlo appartente ad un azione da noi ricercata. Di default tale valore è impostato a \textbf{0.9} in quanto il modello da noi trovato fornisce predizioni molto polarizzate
 \item La \textbf{durata minima} dell'azione sotto la quale il nostro highlights viene scartato. Di default tale durata è impostata a \textbf{10 secondi}
-\item La \textbf{tolleranza temporale} prima di ritenere finita un'azione, ovvero se si scende sotto la probabilità di soglia, tramite tale tolleranza si permette di aspettare un breve lasso di tempo prima di ritenere chiusa tale azione.
+\item La \textbf{tolleranza temporale}, tramite tale tolleranza si permette di aspettare un breve lasso di tempo prima di ritenere chiusa un'azione ogniqualvolta si scende sotto la probabilità di soglia.
 Tale valore è stato inserito per evitare che singoli campioni con predizioni alterate possano rovinare il rilevamento di una intera sequenza. Di default il valore di tale tolleranza è \textbf{3 secondi}.
 \end{itemize}
 Una volta definiti tali parametri la generazione degli highlights è un processo abbastanza lineare, è necessario infatti:
 \begin{enumerate}
-\item Scorrere la matrice delle predizioni in cerca di un campione in cui la probabilità per l'azione ricercata è maggiore della probabilità di soglia.
-\item Trovato tale campione si continua a scorrere la matrice fintanto che il valore di probabilità rimane al di sopra della soglia.
-\item Una volta scesi sotto tale probabilità, si aspetta la tolleranza temporale.
-\item Se entro il range di tolleranza temporale la probabilità rimane al di sotto della soglia e la durata è maggiore della durata minima viene generato l'\textbf{highlights}.
+\item Scorrere la matrice delle predizioni in cerca di un campione in cui la probabilità per l'azione ricercata è maggiore della probabilità di soglia
+\item Trovato tale campione si continua a scorrere la matrice fintanto che il valore di probabilità rimane al di sopra della soglia
+\item Una volta scesi sotto tale probabilità, si aspetta la tolleranza temporale
+\item Se entro il range di tolleranza temporale la probabilità rimane al di sotto della soglia e la durata è maggiore della durata minima viene generato l'\textbf{highlight}.
 \end{enumerate}
 Queste operazioni nel nostro caso sono state effettuate nella ricerca di \textbf{cartellini}, \textbf{goal} e \textbf{sostituzioni}.
 \section{Risultati sperimentali}
 A causa della natura del dataset, in particolare a causa dell'\textbf{annotazione puntuale} delle azioni significative, per verificare la bontà del processo di generazione degli highlights non mi è stato possibile utilizzare la metrica \textbf{tIoU} (\textbf{temporal intersection over union}).
-\\Per dare una misurazione quantitativa riprendiamo il task di \textbf{spotting} intorodotto da \citet{soccerNet}.
-\\Dato un highlights si va cioè ad identificare in esso l'istante che riteniamo più significativo, verificando in un secondo momento poi la distanza di tale istante dall'evento target.
+\\Per dare una misurazione quantitativa riprendiamo il task di \textbf{spotting} intorodotto da \citet{soccerNet}, dato un highlights si va cioè ad identificare in esso l'istante che riteniamo più significativo, verificando in un secondo momento poi la distanza di tale istante dall'evento \textit{target}.
 \\Più in dettaglio:
 \begin{enumerate}
 \item Si individuano i \textbf{limiti temporali} dell'azione con le tecniche descritte nel paragrafo precedente
 \item Si \textbf{indvidua} l'istante nel quale pensiamo possa essere accaduta l'azione, ovviamente all'interno dei limiti temporali calcolati nel punto 1. Nel nostro caso è stato scelto il \textbf{punto centrale} del nostro highlights
-\item Si determina se l'instante temporale da noi scelto si trova ad una distanza minore della tolleranza dall'istante target. Nel nostro caso è stata scelta una \textbf{tolleranza temporale} di \textbf{30 secondi}.
+\item Si determina se l'istante temporale da noi scelto si trova ad una distanza minore della tolleranza dall'istante \textit{target}. Nel nostro caso è stata scelta una \textbf{tolleranza temporale} di \textbf{30 secondi}.
 \end{enumerate}
-Quindi coi parametri da noi scelti un highlights è ritenuto \textbf{corretto} se il suo istante centrale è distante \textbf{meno} di \textbf{30 secondi} dell'istante target, ovvero dall'istante in cui è realmente accaduta l'azione.
+Quindi con i parametri da noi scelti un highlight è ritenuto \textbf{corretto} se il suo istante centrale è distante \textbf{meno} di \textbf{30 secondi} dell'istante \textit{target}, ovvero dall'istante in cui è realmente accaduta l'azione.
 \\Nella tabella \textbf{\ref{table: spotting-result}} sono riassunti i risultati sperimentali
 \begin{table}[ht]
 \caption{Risultati sperimentali nel task di spotting}
@@ -91,4 +90,4 @@ Quindi coi parametri da noi scelti un highlights è ritenuto \textbf{corretto} s
 \label{table: spotting-result}
 \end{table}
 
-Come si può vedere, utiizzando sempre il modello allenato durante il task di \textbf{classificazione}, in ambito di \textbf{localizzazione} (in particolare nel task di \textbf{spotting}) ho ottenuto un \textbf{average-F1 score} del \textbf{83.5\%}
+Come si può vedere, utilizzando sempre il modello allenato durante il task di \textbf{classificazione}, in ambito di \textbf{localizzazione} (in particolare nel task di \textbf{spotting}) ho ottenuto un \textbf{average-F1 score} del \textbf{83.5\%}

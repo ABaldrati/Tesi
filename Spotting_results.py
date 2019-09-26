@@ -2,7 +2,7 @@ import json
 import os
 
 import numpy as np
-from keras.models import load_model
+#from keras.models import load_model
 from tqdm import tqdm
 
 from Dataset import read_data
@@ -26,7 +26,7 @@ def count_single_events(label_path, feature_game_name, type_of_action):
             if ("1_" in feature_game_name and time_half == 1) or (
                     "2_" in feature_game_name and time_half == 2):
                 time = time_minute * 60 + time_second
-                if (time - last_time) > 30:
+                if (time - last_time) > 30 and time != 0:
                     num_single_events += 1
                 last_time = time
 
@@ -151,14 +151,14 @@ def calculate_spotting_results(list_games, path_data, feature_type, chunk_size=6
 
 
 def main():
-    model = load_model('./Model/saved-model-34-0.2283-0.7823.h5',
-                       custom_objects={'auprc': auprc, 'auprc0': auprc0, 'auprc1': auprc1, 'auprc2': auprc2,
-                                       'auprc3': auprc3, 'auprc1to3': auprc1to3, 'f1m': f1m})
+    #model = load_model('./Model/saved-model-34-0.2283-0.7823.h5',
+                       #custom_objects={'auprc': auprc, 'auprc0': auprc0, 'auprc1': auprc1, 'auprc2': auprc2,
+                                       #'auprc3': auprc3, 'auprc1to3': auprc1to3, 'f1m': f1m})
 
-    generate_predictions(model)
+    #generate_predictions(model)
     _, _, test_games = read_data()
     calculate_spotting_results(test_games, '/data/datasets/soccernet/SoccerNet-code/data', 'ResNET')
 
 
-if __name__ == 'main':
+if __name__ == '__main__':
     main()

@@ -50,7 +50,8 @@ F.~Chollet et~al.
 \bibitem[Giancola et~al.(2018)Giancola, Amine, Dghaily, and Ghanem]{soccerNet}
 S.~Giancola, M.~Amine, T.~Dghaily, and B.~Ghanem.
 \newblock Soccernet: A scalable dataset for action spotting in soccer videos.
-\newblock CVPR Workshop on Computer Vision in Sports, 2018.
+\newblock In \emph{The IEEE Conference on Computer Vision and Pattern
+  Recognition (CVPR) Workshops}, June 2018.
 
 \bibitem[Miech et~al.(2017)Miech, Laptev, and Sivic]{MiechPooling}
 A.~Miech, I.~Laptev, and J.~Sivic.

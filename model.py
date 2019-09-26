@@ -62,30 +62,24 @@ model.add(layers.Bidirectional(layers.GRU(512,
                                           dropout=0.1,
                                           recurrent_dropout=0.4,
                                           return_sequences=True,
-                                          # kernel_regularizer=regularizers.l1_l2(l1=0.00001, l2=0.00001)
                                           ),
                                input_shape=(None, 512))
           )
-
 model.add(layers.Bidirectional(layers.GRU(256,
                                           activation='relu',
                                           dropout=0.1,
                                           recurrent_dropout=0.4,
                                           return_sequences=True,
-                                          # kernel_regularizer=regularizers.l1_l2(l1=0.00001, l2=0.00001)
                                           )
                                )
           )
-
 model.add(layers.Bidirectional(layers.GRU(128,
                                           activation='relu',
                                           dropout=0.1,
-                                          recurrent_dropout=0.4,
-                                          # kernel_regularizer=regularizers.l1_l2(l1=0.00001, l2=0.00001)
+                                          recurrent_dropout=0.4
                                           )
                                )
           )
-
 model.add(layers.Dense(4,
                        activation='sigmoid')
           )
