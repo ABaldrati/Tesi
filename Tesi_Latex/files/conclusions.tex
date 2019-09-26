@@ -12,7 +12,7 @@ Durante la fase di training, per cercare di ridurre gli effetti negativi dovuti 
 \\Questi ulteriori campioni sono stati aggiunti poi al dataset, aiutando a risolvere lo sbilanciamento di quest'ultimo.
 \\I risultati ottenuti applicando questa tecnica non sono stati tuttavia soddisfacenti, infatti le prestazioni della rete neurale si sono rivelate peggiori rispetto al modello che non ha fatto uso di \textbf{Data Augmentation}.
 \subsection{Malfunzionamenti}
-La rete neurale da me sviluppata non è ovviamente \textbf{immune} da \textbf{errori}, in particolare, come evindenziato dai risultati ottenuti sia nel task di localizzazione che in quello di classificazione, l'azione che viene identificata con risultati peggiori è quella che corrsiponde all'estrazione di un cartellino.
+La rete neurale da me sviluppata non è ovviamente \textbf{immune} da \textbf{errori}, in particolare, come evidenziato dai risultati ottenuti sia nel task di localizzazione che in quello di classificazione, l'azione che viene identificata con risultati peggiori è quella che corrsiponde all'estrazione di un cartellino.
 \\Nella figura \textbf{\ref{figure : fakecard}} abbiamo un esempio di tale \textbf{malfunzionamento}, infatti in tale figura vediamo come l'inquadratura \textbf{in primo piano} dell'arbitro induca la nostra rete neurale a pensare che sia stato estratto un \textbf{cartellino}, quando invece il giocatore è stato richiamato solo \textbf{verbalmente}.
 \begin{figure}[H]
 \centering
