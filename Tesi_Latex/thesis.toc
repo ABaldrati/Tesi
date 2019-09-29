@@ -29,7 +29,7 @@
 \contentsline {chapter}{\numberline {4}Conclusioni}{23}{chapter.4}
 \contentsline {section}{\numberline {4.1}Cosa ha funzionato bene}{23}{section.4.1}
 \contentsline {section}{\numberline {4.2}Cosa ha funzionato meno bene}{24}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Data Aumentation}{24}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.1}Data Augmentation}{24}{subsection.4.2.1}
 \contentsline {subsection}{\numberline {4.2.2}Malfunzionamenti}{24}{subsection.4.2.2}
 \contentsline {section}{\numberline {4.3}Sviluppi futuri}{25}{section.4.3}
 \contentsline {chapter}{Bibliografia}{27}{section.4.3}

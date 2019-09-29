@@ -2,31 +2,31 @@
 \section{Features}
 Per ulteriori dettagli su come sono state processate le features fare riferimento a \citep{soccerNet}
 \subsection{Preparazione dei video }
-Prima di procedere con l'estrazione delle \textbf{features} mediante una rete neurale, sono state effettuate sui video le seguenti operazioni:
+Prima di procedere con l'estrazione delle \textbf{features} mediante una rete neurale, sono state effettuate le seguenti operazioni su ogni video del dataset:
 \begin{itemize}
 \item Sono stati \textbf{tagliati} in modo che l'inizio del video coincida con l'inizio della partita
 \item Dalla risoluzione \textbf{HD} sono stati portati ad una risoluzione di \textbf{224 x 224}
 \item Sono stati unificati a \textbf{25fps}
 \end{itemize}
-Tale rappresentazione garantisce video compatibili con l'estrazione di features mediante reti neurali e permette di mantenre un dataset di dimensioni accettabili.
+Tale rappresentazione garantisce video compatibili con l'estrazione di features mediante reti neurali e permette di mantenere un dataset di dimensioni accettabili.
 \subsection{Estrazione delle features}
 Dopo aver processato i video come descritto sopra si è passati poi alla estrazione delle features.
 \\Per tale operazione è stata utilizzata la rete neurale convoluzionale profonda (ConvNet) \textbf{ResNET}, essa data un immagine (nel nostro caso un frame del video) in input, ha come output, al layer \textit{fc1000}, \textbf{2048} features.
 \\In particolare è stata usata la variante \textbf{ResNet-152} preallenata sul dataset \textbf{ImageNet}.
-\\Dato che tale rete neurale è applicata sui singoli frame, essa non mantiene intrinsecamente informazioni temporali, a causa di ciò essa è stata utilizzata per estrarre features ogni \textbf{0.5} secondi, preocupandosi successivamente di mantenerle nell'ordine corretto.
-\\Per ridurre le dimensioni delle features è stata infine applicata la \textbf{Principal Component Analaysis} (\textbf{PCA}) che riduce il numero di features per frame da \textbf{2048} a \textbf{512} mantenendo il \textbf{93.9\%} della varianza.
+\\Dato che tale rete neurale è applicata sui singoli frame, essa non mantiene intrinsecamente informazioni temporali, per questo motivo essa è stata utilizzata per estrarre features ogni \textbf{0.5} secondi, preoccupandosi successivamente di mantenerle nell'ordine corretto.
+\\Per ridurre le dimensioni delle features è stata infine applicata la \textbf{Principal Component Analysis} (\textbf{PCA}) che riduce il numero di features per frame da \textbf{2048} a \textbf{512} mantenendo il \textbf{93.9\%} della varianza.
 
 \section{Pooling neural network}
-Nel paper di \citet{soccerNet} vengono testate varie tipologie di pooling, le quali hanno in comune la sigmoide come funzione di attivazione nell'ultimo layer per permettere annotazioni multiple in un singolo campione.
+Nel \textit{paper} di \citet{soccerNet} vengono testate varie tipologie di pooling, le quali hanno in comune la sigmoide come funzione di attivazione nell'ultimo layer per permettere annotazioni multiple in un singolo campione.
 Le varie tipologie di pooling utilizzate sono: \textbf{mean}, \textbf{max}, \textbf{CNN}, \textbf{SoftDBOW}, \textbf{NetFV}, \textbf{NetVLAD} e \textbf{NetRVLAD}. \cite{MiechPooling}
 \\Vedremo successivamente che il modello che ottiene i risultati migliori è il \textbf{NetVLAD}, avente il \textit{fully connected layer} di uscita con un \textit{dropout rate} pari a \textbf{0.4} per cercare di prevenire l'\textit{overfitting}.
 
 \section{GRU-model}
 \label{section : grumodel}
 Il modello migliore da me sviluppato è una \textbf{rete neurale ricorrente} (\textbf{RNNs}) basata su \textbf{GRU} layer (\textbf{Gated Recurrent Unit}). 
-\\Più nel dettaglio, come si può notare dal codice sottoriportato, l'intero modello è costituito proprio da \textbf{tre} layer di tipo GRU e dal layer di \textbf{output}.
+\\Più nel dettaglio, come si può notare dal codice sotto riportato, l'intero modello è costituito proprio da \textbf{tre} layer di tipo GRU e dal layer di \textbf{output}.
 \\I tre layer GRU sono stati usati in modo \textbf{bidirezionale} in quanto spesso ciò che avviene \textbf{dopo} un goal, un cartellino o una sostituzione \textbf{caratterizza} l'azione tanto quanto ciò è avvenuto \textbf{prima}, aiutando la rete neurale a classificare in modo corretto l'azione. Per tali layer la funzione di attivazione scelta è stata la \textit{rectified linear unit} (\textbf{ReLU}). \cite{DeepLearningPython}
-\\Il layer di output, come in tutti i problemi di machine learning, è strettamente collegato al tipo di problema che si deve fronteggiare. Il nostro, almeno nella fase iniziale, è un problema di classificazione binaria avente \textbf{quattro} classi (background, cartellino, sostituzione e goal), per questo motivo tale layer come funzione di attivazione la \textbf{sigmoide} ed ha esattamente \textbf{4} neuroni.
+\\Il layer di output, come in tutti i problemi di machine learning, è strettamente collegato al tipo di problema che si deve fronteggiare. Il nostro, almeno nella fase iniziale, è un problema di classificazione binaria avente \textbf{quattro} classi (background, cartellino, sostituzione e goal), per questo motivo tale layer ha esattamente \textbf{4} neuroni ed una funzione di attivazione sigmoidale .
 \\Tale modello è stato realizzato con la libreria \textbf{Keras} \cite{chollet2015keras}, usando come \textit{backend} \textbf{TensorFlow} \cite{tensorflow2015-whitepaper}
 \begin{minted}[baselinestretch=1, fontsize=\footnotesize]{python}
 model = Sequential()
@@ -61,5 +61,5 @@ model.add(layers.Dense(4,
           )
 \end{minted}
 Si può notare come siano stati utilizzati dei \textit{dropout layer} per cercare di ridurre il problema dell'overfitting, essi sono stati usati sia nella versione \textbf{standard}, sia nella versione apposita per le \textbf{reti neruali ricorrenti}, la quale utilizza la medesima \textit{dropout mask} ad ogni \textit{timestamp} permettendo di propagare l'errore in modo corretto. \cite{DeepLearningPython}
-\\Come otimizzatore è stato utilizzato \textbf{RMSProp} con il \textbf{learning rate} di default (\textbf{lr$=$0.001}), era tuttavia presente una \textit{callback} che in caso di non miglioramento del modello per più di dieci epoche lo riduceva di un fattore 0.4.
+\\Come ottimizzatore è stato utilizzato \textbf{RMSProp} con il \textbf{learning rate} di default (\textbf{lr$=$0.001}); era tuttavia presente una \textit{callback} che, in caso di non miglioramento del modello per più di dieci epoche, lo riduceva di un fattore 0.4.
 \\La \textit{loss function} utilizzata, essendo un problema di classificazione binaria multiclasse, è la \textbf{binary crossentropy}.

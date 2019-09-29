@@ -1,19 +1,19 @@
 \chapter{Esperimenti Localizzazione}\label{ch:chapter3}
 In questo capitolo si andrà a descrivere il lavoro effettuato per estrarre le azioni di nostro interesse dall'intero video delle partite presenti nel nostro test set.
 \\Per fare ciò abbiamo utilizzato la rete neurale addestrata nel problema di classificazione descritto precedentemente.
-\\Quello che abbiamo fatto  può sembrare stano, infatti abbiamo trasformato un problema di \textbf{classificazione} in uno di \textbf{localizzazione}, tuttavia vedremo che nel nostro caso, con qualche accorgimento, ciò è realizzabile.
+\\Quello che abbiamo fatto può sembrare illogico, infatti abbiamo trasformato un problema di \textbf{classificazione} in uno di \textbf{localizzazione}, tuttavia vedremo che nel nostro caso, con qualche accorgimento, ciò è realizzabile.
 \section{Sliding windows dataset}
 Il dataset su cui andremo a effettuare la localizzazione è ovviamente il \textbf{test set} del problema precedente (non avrebbe senso cercare di localizzare azioni in porzioni di dataset utilizzate per il training).
-\\Tuttavia, se nel caso precedente avevamo diviso ogni partita del dataset in porzioni \textbf{disgiunte} di un minuto, nel caso della localizzazione ciò non è ovviamente utile ai nostri scopi.
-\\Un altro fattore da considerare, se come detto si vuole utilizzare la rete neurale precentemente addestrata, è  il tipo di dati forniti in fase di training a tale rete: \textbf{120} raggruppamenti di features (ovvero un \textbf{minuto} di video) per ogni campione.
-\\Per queste motivazioni, partendo dalle features estratte dall'intero video, è stato creato un campione per ogni secondo di partita, sempre formato da 120 raggruppamenti di features, mediante un meccasismo di \textbf{sliding windows}.
-\\Più nel dettaglio il campione corrispondente all'istante di partita \textbf{t} viene creato in modo da contenere tutte le features dei frame dall'istante \textbf{t$-$30} all'istante \textbf{t$+$30}.
+\\Tuttavia, se nel caso precedente avevamo diviso ogni partita del dataset in porzioni \textbf{disgiunte} di un minuto, nel caso della localizzazione questo procedimento non è funzionale ai nostri scopi.
+\\Un altro fattore da considerare, se come detto si vuole utilizzare la rete neurale precedentemente addestrata, è  il tipo di dati forniti in fase di training a tale rete: \textbf{120} raggruppamenti di features (ovvero un \textbf{minuto} di video) per ogni campione.
+\\Per queste motivazioni, partendo dalle features estratte dall'intero video, è stato creato un campione per ogni secondo di partita, sempre formato da 120 raggruppamenti di features, mediante un meccanismo di \textbf{sliding windows}.
+\\Più nel dettaglio, il campione corrispondente all'istante di partita \textbf{t} viene creato in modo da contenere tutte le features dei frame dall'istante \textbf{t$-$30} all'istante \textbf{t$+$30}.
 \\Ad esempio il campione corrispondente al minuto di partita 23:57 è formato dalle features dei frame comprese tra il minuto 23:27 e il minuto  24:27.
 \\Ovviamente per i campioni all'\textbf{inizio} e alla \textbf{fine} della partita, ovvero i campioni corrispondenti ai \textbf{primi 30 secondi} di video e quelli corrispondenti agli \textbf{ultimi 30}, si sono dovuti prendere degli accorgimenti dato che la loro finestra di features \textit{usciva dal video}.
-\\Per questo motivo per la gestione delle features mancanti è stato utilizzato l'appoccio \textbf{zero-padding}, il quale al posto delle features mancanti prevede l'inserimento di features \textbf{fittizie}, tutte poste a \textbf{zero}, consentendo alla rete neurale distinguere in modo autonomo le features significative da quelle invece non significative.
+\\Per questo motivo per la gestione delle features mancanti è stato utilizzato l'approccio \textbf{zero-padding}, il quale al posto delle features mancanti prevede l'inserimento di features \textbf{fittizie}, tutte poste a \textbf{zero}, consentendo alla rete neurale di distinguere in modo autonomo le features significative da quelle invece non significative.
 \\Questa costruzione del dataset permette di utilizzare la rete neurale precedentemente addestrata per i nostri scopi di \textbf{localizzazione}.
 \section{Predizioni}
-Una volta processato il test set come sopra descritto, mediante quindi un meccanismo di sliding windows, è stato utlizzato il metodo \textbf{predict} fornitoci dalla libreria Keras \cite{chollet2015keras}, il quale dato un modello già alleneato e dei dati compatibili con tale modello, ci fornisce in output le sue predizioni su tali dati sotto forma di probabilità. 
+Una volta processato il test set come sopra descritto, mediante quindi un meccanismo di sliding windows, è stato utlizzato il metodo \textbf{predict} fornitoci dalla libreria Keras \cite{chollet2015keras}, il quale dato un modello già allenato e dei dati compatibili con tale modello, ci fornisce in output le sue predizioni su tali dati sotto forma di probabilità. 
 \\Per esempio nel nostro caso, ad ogni \textbf{campione}, quindi ad ogni \textbf{secondo} di partita, sono assegnate \textbf{quattro} probabilità, ovvero una per ogni label (background, sostituzione, cartellino, goal).
 \\Ovviamente per come abbiamo costruito il nostro dataset, le probabilità di un evento ad un certo istante di tempo si riferisce al fatto che sia presente o meno tale evento nell'intervallo tra i 30 secondi \textbf{precedenti} e i 30 secondi \textbf{successivi} al nostro tempo di riferimento.
 \\Questo processo è stato ripetuto poi per tutte le partite del nostro test set.
@@ -24,7 +24,7 @@ Una volta processato il test set come sopra descritto, mediante quindi un meccan
 \label{figure : predict}
 \end{figure}
 \section{Visualizzazione predizioni}
-Per verificare il corretto funzionamento del mio modello anche nel task di localizzazione, sono stato in grado di mostare direttamente le predizioni (\textbf{in tempo reale}) sopra il video della partita, per fare ciò mi sono servito delle librerie \textbf{matplotlib} e \textbf{OpenCV}.
+Per verificare il corretto funzionamento del mio modello anche nel task di localizzazione, sono stato in grado di mostrare direttamente le predizioni (\textbf{in tempo reale}) sopra il video della partita. Per fare ciò mi sono servito delle librerie \textbf{matplotlib} e \textbf{OpenCV}.
 \\Questo ci ha permesso di comprendere molto meglio gli aspetti che la rete neurale ritiene importanti e che fanno la differenza tra un campione con la label di \textit{background} e un campione con una label più \textbf{significativa}.
 
 \begin{figure}[ht]
@@ -49,7 +49,7 @@ Per verificare il corretto funzionamento del mio modello anche nel task di local
 Dopo aver generato le predizioni, si ha quindi per ogni istante di una partita la probabilità che i tre nostri eventi di riferimento siano vicini a tale istante.
 \\Prima di procedere con la generazione degli highlights, è tuttavia necessario determinare alcuni parametri:
 \begin{itemize}
-\item La \textbf{probabilità di soglia}, ovvero la probabilità minima che il campione deve avere per ritenerlo appartente ad un azione da noi ricercata. Di default tale valore è impostato a \textbf{0.9} in quanto il modello da noi trovato fornisce predizioni molto polarizzate
+\item La \textbf{probabilità di soglia}, ovvero la probabilità minima che il campione deve avere per ritenerlo appartenente ad un azione da noi ricercata. Di default tale valore è impostato a \textbf{0.9} in quanto il modello da noi trovato fornisce predizioni molto polarizzate
 \item La \textbf{durata minima} dell'azione sotto la quale il nostro highlights viene scartato. Di default tale durata è impostata a \textbf{10 secondi}
 \item La \textbf{tolleranza temporale}, tramite tale tolleranza si permette di aspettare un breve lasso di tempo prima di ritenere chiusa un'azione ogniqualvolta si scende sotto la probabilità di soglia.
 Tale valore è stato inserito per evitare che singoli campioni con predizioni alterate possano rovinare il rilevamento di una intera sequenza. Di default il valore di tale tolleranza è \textbf{3 secondi}.
@@ -63,12 +63,12 @@ Una volta definiti tali parametri la generazione degli highlights è un processo
 \end{enumerate}
 Queste operazioni nel nostro caso sono state effettuate nella ricerca di \textbf{cartellini}, \textbf{goal} e \textbf{sostituzioni}.
 \section{Risultati sperimentali}
-A causa della natura del dataset, in particolare a causa dell'\textbf{annotazione puntuale} delle azioni significative, per verificare la bontà del processo di generazione degli highlights non mi è stato possibile utilizzare la metrica \textbf{tIoU} (\textbf{temporal intersection over union}).
-\\Per dare una misurazione quantitativa riprendiamo il task di \textbf{spotting} intorodotto da \citet{soccerNet}, dato un highlights si va cioè ad identificare in esso l'istante che riteniamo più significativo, verificando in un secondo momento poi la distanza di tale istante dall'evento \textit{target}.
+A causa della natura del dataset, in particolare a causa dell'\textbf{annotazione puntuale} delle azioni significative, per verificare la bontà del processo di generazione degli highlights, non mi è stato possibile utilizzare la metrica \textbf{tIoU} (\textbf{temporal intersection over union}).
+\\Per dare una misurazione quantitativa riprendiamo il task di \textbf{spotting} introdotto da \citet{soccerNet}, dato un highlights si va cioè ad identificare in esso l'istante che riteniamo più significativo, verificando in un secondo momento poi la distanza di tale istante dall'evento \textit{target}.
 \\Più in dettaglio:
 \begin{enumerate}
 \item Si individuano i \textbf{limiti temporali} dell'azione con le tecniche descritte nel paragrafo precedente
-\item Si \textbf{indvidua} l'istante nel quale pensiamo possa essere accaduta l'azione, ovviamente all'interno dei limiti temporali calcolati nel punto 1. Nel nostro caso è stato scelto il \textbf{punto centrale} del nostro highlights
+\item Si \textbf{individua} l'istante nel quale pensiamo possa essere accaduta l'azione (ovviamente all'interno dei limiti temporali calcolati nel punto 1). Nel nostro caso è stato scelto il \textbf{punto centrale} del nostro highlights
 \item Si determina se l'istante temporale da noi scelto si trova ad una distanza minore della tolleranza dall'istante \textit{target}. Nel nostro caso è stata scelta una \textbf{tolleranza temporale} di \textbf{30 secondi}.
 \end{enumerate}
 Quindi con i parametri da noi scelti un highlight è ritenuto \textbf{corretto} se il suo istante centrale è distante \textbf{meno} di \textbf{30 secondi} dell'istante \textit{target}, ovvero dall'istante in cui è realmente accaduta l'azione.
