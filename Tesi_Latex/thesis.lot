@@ -1,0 +1,13 @@
+\babel@toc {italian}{}
+\babel@toc {italian}{}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces Suddivisone delle partite per lega e anno nel nostro Dataset\relax }}{6}{table.caption.8}
+\contentsline {table}{\numberline {2.2}{\ignorespaces Risultati per i diversi metodi di pooling\relax }}{10}{table.caption.9}
+\contentsline {table}{\numberline {2.3}{\ignorespaces mAP al variare del numero di cluster k per i metodi di pooling proposti da \citet {MiechPooling}\relax }}{10}{table.caption.10}
+\contentsline {table}{\numberline {2.4}{\ignorespaces Risultati sul test set\relax }}{13}{table.caption.13}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Risultati sperimentali nel task di spotting\relax }}{22}{table.caption.18}
+\addvspace {10\p@ }
